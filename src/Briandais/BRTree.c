@@ -340,24 +340,42 @@ BRTree * del_file_BRTree(char * file_name, BRTree * T){
 	return T;
 }
 
-int inside_plot_file(BRTree * T, long x, long y);
+int inside_plot_file(BRTree * T, long x, long y, int next);
 void make_plot_file_BRTree(BRTree * T){
 
-	inside_plot_file(T, 10, 10);	
+	inside_plot_file(T, 10, 10, 0);	
 
 }
 
-int inside_plot_file(BRTree * T, long x, long y){
+int inside_plot_file(BRTree * T, long x, long y, int next){
 
 	if(T == NULL){
-		return 0;
+		return 1;
 	}
-	if(T->key == '\0')
-		printf("\\0 %ld %ld\n", x, y);
+
+	if(next == 1){
+		if(T->key == '\0'){
+			printf(". %ld %ld\n\n", x, y);
+		}
+		else
+			printf("%c %ld %ld\n\n",T->key, x, y);
+	}
+	if(T->key == '\0'){
+		printf(". %ld %ld\n", x, y);
+	}
 	else
 		printf("%c %ld %ld\n",T->key, x, y);
-	int width_child = inside_plot_file(T->child, x, y + D_Y);
-	return (width_child + 1)* D_X + inside_plot_file(T->next, x + width_child * D_X, y);
+	int width_child = inside_plot_file(T->child, x, y + D_Y, 0);
+	printf("\n");
+
+
+	if(T->key == '\0'){
+		printf(". %ld %ld\n", x, y);
+	}
+	else
+		printf("%c %ld %ld\n",T->key, x, y);
+
+	return (width_child) + inside_plot_file(T->next, (x + width_child), y, 1);
 
 }
 BRTree * del_directory_BRTree(char * dir_name, BRTree * T){

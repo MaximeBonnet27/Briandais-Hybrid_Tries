@@ -16,6 +16,7 @@ exec_shake_threads : bin/briandais_shakespeare_threads
 
 exec_plot : bin/plot_tree
 	bin/plot_tree > plot_result
+	scripts/plot_tree.gp
 #DEBUG 
 
 debug : CFLAGS += -DDEBUG -g
