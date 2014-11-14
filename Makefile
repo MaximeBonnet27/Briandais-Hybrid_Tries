@@ -64,6 +64,6 @@ clean :
 	rm -f obj/* bin/* 
 
 cleanall : clean
-	rm -f *~ src/*~ src/Briandais/*~ include/*~ log
+	rm -f *~ */*~ */*/*~ log 
 
 
