@@ -38,13 +38,13 @@ int main(int argc, char ** argv){
 
 
 	clock_gettime(CLOCK_MONOTONIC, &start);
-	t = del_file_BRTree("test_files/shakespeare/othello.txt", t);
+	t = del_directory_BRTree("test_files/shakespeare/", t);
 	clock_gettime(CLOCK_MONOTONIC, &finish);
 
 	elapsed = (finish.tv_sec - start.tv_sec);
 	elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
 
-	printf("Time elapsed after delete: %f seconds \n", elapsed);
+	printf("Time elapsed during delete: %f seconds \n", elapsed);
 
 
 	printf("Tree height : %d\n", height_BRTree(t));

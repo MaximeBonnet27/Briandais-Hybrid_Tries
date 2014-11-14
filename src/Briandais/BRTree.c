@@ -71,36 +71,29 @@ BRTree * add_BRTree(char * word, BRTree * T){
 
 
 BRTree * del_BRTree(char * word, BRTree * T){
-	if(T == NULL)
+
+	if(T == NULL){
 		return NULL;
-	if(is_empty(T->child) && strlen(word) == 1 && word[0] == T->key){
-		if(is_empty(T->next)){
-			return empty_BRTree();
-		}
-		else{
-			return T->next;
-		}
 	}
-	else{
-		if(first(word) < T->key){
-			return empty_BRTree();
-			return T;
-		}
-		else if(first(word) == T->key){
+	if(is_empty(T) && strcmp(word, "") == 0){
+		return T->next;
+	}
+	if(T->key == first(word)){
 			BRTree * child = del_BRTree(end(word), T->child);
-			if(is_empty(child)){
-				return empty_BRTree();
+			if(child == NULL){
+				return T->next;
 			}
-			else{
-				if(is_empty(child->next))
-					child->next = NULL;
+			else {	
 				return new_BRTree(T->key, child, T->next);
 			}
-		}
-		else {
-			return new_BRTree(T->key, T->child, del_BRTree(word,T->next));
-		}
 	}
+	else if(T->key > first(word)){
+		return T;
+	}
+	else {
+		return new_BRTree(T->key, T->child, del_BRTree(word, T->next));
+	}	
+
 }
 
 int search_BRTree(char * word, BRTree * T){
@@ -365,5 +358,32 @@ int inside_plot_file(BRTree * T, long x, long y){
 		printf("%c %ld %ld\n",T->key, x, y);
 	int width_child = inside_plot_file(T->child, x, y + D_Y);
 	return (width_child + 1)* D_X + inside_plot_file(T->next, x + width_child * D_X, y);
+
+
+BRTree * del_directory_BRTree(char * dir_name, BRTree * T){
+
+	DIR * dir = opendir(dir_name);
+	struct dirent * entry;
+	char path [256];
+	if(dir == NULL){
+		fprintf(stderr,"opendir failed\n");
+		return NULL;
+	}
+	while((entry = readdir(dir))){
+		if(!strcmp(entry->d_name, "."))
+			continue;
+		if(!strcmp(entry->d_name, ".."))
+			continue;
+
+		strcpy(path, dir_name);
+		strcat(path, "/");
+		strcat(path, entry->d_name);
+		T = del_file_BRTree(path, T);
+
+	}
+	closedir(dir);
+	return T;
+
+
 
 }

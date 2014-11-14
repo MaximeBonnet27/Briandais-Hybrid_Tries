@@ -78,7 +78,11 @@ BRTree * add_file_BRTree(char * file_name, BRTree * T);
 /*
 * Adds all the words from all the files in dir_name into T
 * Returns the new BRTree
+<<<<<<< HEAD
 */
+=======
+*
+>>>>>>> d725cd012f5fb11892a5f9490c5347943d02d0dc
 BRTree * add_directory_BRTree(char * dir_name, BRTree * T);
 
 /*
@@ -149,4 +153,6 @@ void print_word_list(word_list * list);
 BRTree * merge_BRTree(BRTree * T1, BRTree * T2);
 
 void make_plot_file_BRTree(BRTree * T);
+
+BRTree * del_directory_BRTree(char * dir_name, BRTree * T);
 #endif
