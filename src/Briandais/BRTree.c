@@ -366,6 +366,7 @@ int inside_plot_file(BRTree * T, long x, long y, int next){
 	else
 		printf("%c %ld %ld\n",T->key, x, y);
 	int width_child = inside_plot_file(T->child, x, y + D_Y, 0);
+	width_child = width_child < 10 ? 10 : width_child;
 	printf("\n");
 
 
