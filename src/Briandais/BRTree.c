@@ -79,13 +79,13 @@ BRTree * del_BRTree(char * word, BRTree * T){
 		return T->next;
 	}
 	if(T->key == first(word)){
-			BRTree * child = del_BRTree(end(word), T->child);
-			if(child == NULL){
-				return T->next;
-			}
-			else {	
-				return new_BRTree(T->key, child, T->next);
-			}
+		BRTree * child = del_BRTree(end(word), T->child);
+		if(child == NULL){
+			return T->next;
+		}
+		else {	
+			return new_BRTree(T->key, child, T->next);
+		}
 	}
 	else if(T->key > first(word)){
 		return T;
@@ -359,7 +359,7 @@ int inside_plot_file(BRTree * T, long x, long y){
 	int width_child = inside_plot_file(T->child, x, y + D_Y);
 	return (width_child + 1)* D_X + inside_plot_file(T->next, x + width_child * D_X, y);
 
-
+}
 BRTree * del_directory_BRTree(char * dir_name, BRTree * T){
 
 	DIR * dir = opendir(dir_name);
