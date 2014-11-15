@@ -350,7 +350,7 @@ void make_plot_file_BRTree(BRTree * T){
 int inside_plot_file(BRTree * T, long x, long y, int next){
 
 	if(T == NULL){
-		return 1;
+		return 0;
 	}
 
 	if(next == 1){
