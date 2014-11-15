@@ -14,7 +14,7 @@ int main(int argc, char ** argv){
 	t = add_HTrie("Salue", t);
 	t = add_HTrie("Bah", t);
 	t = add_HTrie("Babar", t);
-
+	t = add_HTrie("Bazar", t);
 	make_plot_file_HTrie(t);	
 
 	free_HTrie(t);
