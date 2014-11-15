@@ -343,7 +343,7 @@ BRTree * del_file_BRTree(char * file_name, BRTree * T){
 int inside_plot_file(BRTree * T, long x, long y, int next);
 void make_plot_file_BRTree(BRTree * T){
 
-	inside_plot_file(T, 10, 10, 0);	
+	inside_plot_file(T, 0, 0, 0);	
 
 }
 
@@ -365,6 +365,7 @@ int inside_plot_file(BRTree * T, long x, long y, int next){
 	}
 	else
 		printf("%c %ld %ld\n",T->key, x, y);
+
 	int width_child = inside_plot_file(T->child, x, y + D_Y, 0);
 	width_child = width_child < 10 ? 10 : width_child;
 	printf("\n");
