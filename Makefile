@@ -18,11 +18,12 @@ exec_main_tries : bin/main_tries
 	bin/main_tries
 
 exec_plot : bin/plot_tree
-	bin/plot_tree > plot_result
+	bin/plot_tree > plot_result_tree
 	scripts/plot_tree.gp
 
 exec_plot_trie : bin/plot_trie
-	bin/plot_trie
+	bin/plot_trie > plot_result_trie
+	scripts/plot_trie.gp
 #DEBUG 
 
 debug : CFLAGS += -DDEBUG -g

@@ -91,10 +91,10 @@ int width(HTrie * T){
 	else {
 		int tmp = width(T->inf) + width(T->sup);
 		int w_eq = width(T->eq);
-	//	if(w_eq == 1)
-	//		return tmp;
-	//	else
-			return 1 + tmp + w_eq;
+			if(w_eq == 1)
+				return tmp;
+			else
+		return 1 + tmp + w_eq;
 	}
 }
 
@@ -106,21 +106,18 @@ void inside_plot_file(HTrie * T, int x, int y){
 	w_inf = width(T->inf);	
 	w_sup = width(T->sup);
 
-	printf("%d %d %d\n", w_eq, w_inf, w_sup);
 	if(w_eq != 0){
 		printf("%c %d %d\n",T->key, x, y);
-		printf("%c %d %d\n\n",T->eq->key, x, y + D_X);
+		printf("%c %d %d\n\n",T->eq->key, x, y + D_Y);
+		inside_plot_file(T->eq, x, y + D_Y);
 	}
 	if(w_inf != 0){
 		printf("%c %d %d\n",T->key, x, y);
-		printf("%c %d %d\n\n",T->inf->key, x - w_eq / 2 - w_inf / 2, y + D_X);
+		printf("%c %d %d\n\n",T->inf->key, x - (w_eq / 2 + w_inf / 2 + 1) * D_X, y + D_Y);
 	}
-	if(w_inf != 0){
+	if(w_sup != 0){
 		printf("%c %d %d\n",T->key, x, y);
-		printf("%c %d %d\n\n",T->sup->key, x + w_eq / 2 + w_sup / 2, y + D_X);
+		printf("%c %d %d\n\n",T->sup->key, x + (w_eq / 2 + w_sup / 2 + 1) * D_X, y + D_Y);
 	}
-
-
-
 
 }

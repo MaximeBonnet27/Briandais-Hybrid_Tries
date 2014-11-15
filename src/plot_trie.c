@@ -11,7 +11,7 @@ int main(int argc, char ** argv){
 	
 	t = add_HTrie("Salut", t);
 	t = add_HTrie("Salutations", t);
-	t = add_HTrie("Aie", t);
+	t = add_HTrie("Salue", t);
 	t = add_HTrie("Bah", t);
 	t = add_HTrie("Babar", t);
 
