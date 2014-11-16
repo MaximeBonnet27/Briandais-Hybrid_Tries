@@ -53,8 +53,8 @@ BRTree * add_BRTree(char * word, BRTree * T){
 	if(first(word) - T->key < 0){
 		return new_BRTree(first(word), build_BRTree(end(word)), T);
 	}else if(first(word) - T->key > 0){
-
-		return new_BRTree(T->key, T->child, add_BRTree(word,T->next));
+		T->next = add_BRTree(word, T->next);
+		return T;
 	}else{
 		// check if we're the last letter of the word
 		if(is_empty(T->child)){
@@ -65,7 +65,8 @@ BRTree * add_BRTree(char * word, BRTree * T){
 						build_BRTree(end(word))), 
 					T->next);
 		}
-		return new_BRTree(T->key, add_BRTree(end(word),T->child), T->next);
+		T->child = add_BRTree(end(word), T->child);
+		return T;
 	}
 }	
 
