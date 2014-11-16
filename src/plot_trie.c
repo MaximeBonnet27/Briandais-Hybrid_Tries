@@ -7,7 +7,7 @@
 
 int main(int argc, char ** argv){
 
-	HTrie * t = empty_HTrie();
+	HTrie * t = NULL;
 	
 	t = add_HTrie("Salut", t);
 	t = add_HTrie("Salutations", t);

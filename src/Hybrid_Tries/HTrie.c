@@ -1,67 +1,30 @@
 #include "HTrie.h"
 
-
-HTrie * empty_HTrie(){
-	HTrie * new = (HTrie *) malloc(sizeof(HTrie));
-	new->key = '\0';
-	new->val = EMPTY;
-	new->inf = NULL;
-	new->eq = NULL;
-	new->sup = NULL;
-	return new;
-}
-
-int is_empty(HTrie * T){
-	if(T == NULL){
-		return TRUE;
-	}
-	else {
-		if(T->val != EMPTY || T->key != '\0' || T->inf != NULL
-				|| T->eq != NULL || T->sup != NULL)
-			return FALSE;
-	}
-	return TRUE;
-
-}
-
-HTrie * new_HTrie(char key, char val, HTrie * inf, HTrie * eq, HTrie * sup){
-
-	HTrie * new = (HTrie *) malloc(sizeof(HTrie));
-	new->key = key;
-	new->val = val;
-	new->inf = inf;
-	new->eq = eq;
-	new->sup = sup;
-	return new;
-
-}
-
-HTrie  * build_HTrie(char * word){
-
-	if(strlen(word) == 1){
-		return new_HTrie(first(word), NON_EMPTY, NULL, NULL, NULL);
-	}
-	else{
-		return new_HTrie(first(word), EMPTY, NULL, build_HTrie(end(word)), NULL);
-	}
-}
-
 HTrie * add_HTrie(char * word, HTrie * T){
 
-	if(is_empty(T)){
-		return build_HTrie(word);
+	if(T == NULL){
+		T = (HTrie *) malloc(sizeof(HTrie));
+		T->key = *word;
+		T->inf = NULL;
+		T->eq = NULL;
+		T->sup = NULL;
+		T->val = EMPTY;
 	}
-
-	if(first(word) < T->key){
-		return new_HTrie(T->key, T->val, add_HTrie(word, T->inf),
-				T->eq, T->sup);
+	if(*word < T->key){
+		T->inf = add_HTrie(word, T->inf);
 	}
-	else if (first(word) > T->key){
-		return new_HTrie(T->key, T->val, T->inf, T->eq, add_HTrie(word, T->sup));
+	else if(*word > T->key){
+		T->sup = add_HTrie(word, T->sup);
 	}
 	else{
-		return new_HTrie(T->key, T->val, T->inf, add_HTrie(end(word), T->eq), T->sup);
+		if(*word == '\0'){
+			T->val = NON_EMPTY;		
+		}
+		else{
+			T->eq = add_HTrie(++word, T->eq);
+		}
 	}
+	return T;
 }
 
 void free_HTrie(HTrie * T){
