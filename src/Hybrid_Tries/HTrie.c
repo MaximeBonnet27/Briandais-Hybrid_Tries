@@ -80,16 +80,16 @@ void inside_plot_file(HTrie * T, int x, int y){
 	printf("\n");
 	if(w_inf != 0){
 		printf("%c %d %d\n",T->key, x, y);
-		printf("%c %d %d\n",T->inf->key, x - (w_inf / 2 + 1) * D_X, y + D_Y);
+		printf("%c %d %d\n",T->inf->key, x - (w_inf / 2) * D_X, y + D_Y);
 	}
-	inside_plot_file(T->inf,  x - (w_inf / 2 + 1) * D_X, y + D_Y);
+	inside_plot_file(T->inf,  x - (w_inf / 2) * D_X, y + D_Y);
 	printf("\n");
 	if(w_sup != 0){
 		printf("%c %d %d\n",T->key, x, y);
-		printf("%c %d %d\n",T->sup->key, x + (w_sup / 2 + 1) * D_X, y + D_Y);
+		printf("%c %d %d\n",T->sup->key, x + (w_sup / 2) * D_X, y + D_Y);
 	}
 
-	inside_plot_file(T->sup,  x + (w_sup / 2 + 1) * D_X, y + D_Y);
+	inside_plot_file(T->sup,  x + (w_sup / 2) * D_X, y + D_Y);
 	printf("\n");
 }
 
