@@ -22,17 +22,11 @@ typedef struct HTrie{
 } HTrie;
 
 
-HTrie * empty_HTrie();
-
-int is_empty(HTrie * T);
-
-HTrie * new_HTrie(char key, char val, HTrie * inf, HTrie * eq, HTrie * sup);
-
-HTrie  * build_HTrie(char * word);
-
 HTrie * add_HTrie(char * word, HTrie * T);
 
 void free_HTrie(HTrie * T);
+
+HTrie * add_file_HTrie(char * file_name, HTrie * T);
 
 
 void make_plot_file_HTrie(HTrie * T);

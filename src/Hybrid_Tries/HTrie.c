@@ -88,7 +88,26 @@ void inside_plot_file(HTrie * T, int x, int y){
 		printf("%c %d %d\n",T->key, x, y);
 		printf("%c %d %d\n",T->sup->key, x + (w_sup / 2 + 1) * D_X, y + D_Y);
 	}
-	
+
 	inside_plot_file(T->sup,  x + (w_sup / 2 + 1) * D_X, y + D_Y);
 	printf("\n");
 }
+
+HTrie * add_file_HTrie(char * file_name, HTrie * T){
+	FILE * file = fopen(file_name, "r");
+	if(file == NULL){
+		fprintf(stderr,"fopen failed : %s\n", file_name);
+		return NULL;
+	}
+	char * buffer = malloc(sizeof(char) * 128);
+	int i;
+	for(i = 0; i < 128; i++) buffer[i] = '\0';
+	while(fscanf(file,"%s", buffer) != EOF){
+		T = add_HTrie(buffer, T);
+		for(i = 0; i < 128; i++) buffer[i] = '\0';
+	}
+	fclose(file);
+	fprintf(stderr,"Added %s\n", file_name);
+	return T;
+}
+
