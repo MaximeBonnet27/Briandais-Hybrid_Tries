@@ -226,7 +226,7 @@ void inside_list_words(HTrie * T, word_list ** list, char * word){
 	}
 	new_word[i] = T->key;
 
-	if(T->key == '\0'){
+	if(T->val == NON_EMPTY){
 		add_word_list(new_word, list);
 	}
 
