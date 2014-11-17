@@ -27,7 +27,6 @@ HTrie * add_HTrie(char * word, HTrie * T){
 	return T;
 }
 
-// Comment for test
 
 void free_HTrie(HTrie * T){
 	if(T == NULL)
