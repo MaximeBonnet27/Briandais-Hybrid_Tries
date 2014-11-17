@@ -18,3 +18,14 @@ int max (int a, int b){
 	return a > b ? a : b;
 }
 
+int max_3(int a, int b, int c){
+
+	if(a > b){
+		if(a > c) return a;
+		return c;
+	}else {
+		if(b > c) return b;
+	}	return c;
+
+}
+

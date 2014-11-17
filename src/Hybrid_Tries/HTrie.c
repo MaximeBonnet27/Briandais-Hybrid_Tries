@@ -27,7 +27,166 @@ HTrie * add_HTrie(char * word, HTrie * T){
 	return T;
 }
 
-// Comment for test
+
+
+HTrie * del_HTrie(char * word, HTrie * T){
+
+	if(T == NULL)
+		return T;
+	else if(strcmp(word,"") == 0){
+		if(T->val == NON_EMPTY){
+			if(T->eq != NULL){
+				T->val = EMPTY;
+			}
+			else if(T->inf != NULL){
+				T->eq = T->inf;
+				T->inf = NULL;	
+			}
+			else if(T->sup != NULL){
+				T->eq = T->sup;
+				T->sup = NULL;
+			}
+			else {
+				free(T);
+				T = NULL;
+			}
+		}
+
+		return T;
+
+	}	
+
+	else {
+		if(*word < T->key){
+			T->inf = del_HTrie(word, T->inf);
+		}
+		else if(*word > T->key){
+			T->sup = del_HTrie(word, T->sup);
+		}
+		else{
+			T->eq = del_HTrie(++word, T->eq);
+		}
+
+		if(T->inf == NULL && T->sup == NULL && T->eq == NULL){
+			free(T);
+			T = NULL;
+		}
+
+		else if(T->eq == NULL && T->inf != NULL){
+			T->eq = T->inf;
+			T->inf = NULL;
+		}
+		else if(T->eq == NULL && T->sup != NULL){
+			T->eq = T->sup;
+			T->sup = NULL;
+		}
+
+		return T;
+
+	}
+
+
+}
+
+int search_HTrie(char * word, HTrie * T){
+
+	if(T == NULL){
+		return FALSE;
+	}
+	else if(strcmp(word,"") == 0){
+		if(T->val == NON_EMPTY){
+			return TRUE;
+		}
+		else {
+			return FALSE;
+		}
+	}
+	else {
+		if(*word < T->key)
+			return search_HTrie(word, T->inf);
+		else if(*word > T->key)
+			return search_HTrie(word, T->sup);
+		else
+			return search_HTrie(++word, T->eq);
+
+
+	}
+
+}
+
+int count_words_HTrie(HTrie * T){
+	if(T == NULL){
+		return 0;
+	}
+	else {
+		if(T->val == EMPTY)
+			return count_words_HTrie(T->eq) 
+				+ count_words_HTrie(T->inf) 
+				+ count_words_HTrie(T->sup);
+		else
+			return 1 + count_words_HTrie(T->eq) 
+				+ count_words_HTrie(T->inf) 
+				+ count_words_HTrie(T->sup);
+	}
+}
+
+int count_null_HTrie(HTrie * T){
+	if(T == NULL)
+		return 1;
+	else {
+		return count_null_HTrie(T->eq)
+			+ count_null_HTrie(T->inf);
+		+ count_null_HTrie(T->sup);
+	}
+}
+
+int height_HTrie(HTrie * T){
+
+	if(T == NULL)
+		return 0;
+	else 
+		return 1 + max_3(height_HTrie(T->inf), 
+				height_HTrie(T->eq),
+				height_HTrie(T->sup));
+
+
+}
+
+void inside_average(HTrie * T, int * level, int * count, int curr_level);
+
+double average_level_HTrie(HTrie * T){
+	int  level = 0, count = 0, curr_level = 1;
+	inside_average(T, &level, &count, curr_level);
+	if(count == 0) return 0.0;
+	return (double) level / count;
+}
+
+void inside_average(HTrie * T, int * level, int * count, int curr_level){
+	if(T == NULL) return;
+	(*level) += curr_level;
+	(*count)++;
+	if(T->inf != NULL)
+		inside_average(T->inf, level, count, curr_level + 1);
+	if(T->eq != NULL)
+		inside_average(T->eq, level, count, curr_level + 1);
+	if(T->sup != NULL)
+		inside_average(T->sup, level, count, curr_level + 1);
+}
+
+
+int count_prefix_HTrie(char * prefix, HTrie * T){
+
+	if(strcmp(prefix, "") == 0){
+		return count_words_HTrie(T);
+	}
+	if(*prefix < T->key)
+		return count_prefix_HTrie(prefix, T->inf);
+	else if (*prefix > T->key)
+		return count_prefix_HTrie(prefix, T->sup);
+	else
+		return count_prefix_HTrie(++prefix, T->eq);
+}
+
 
 void free_HTrie(HTrie * T){
 	if(T == NULL)
@@ -39,6 +198,8 @@ void free_HTrie(HTrie * T){
 		free(T);
 	}
 }
+
+
 
 void inside_plot_file(HTrie * T, int x, int y);
 int width(HTrie * T);

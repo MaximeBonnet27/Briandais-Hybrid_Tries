@@ -10,5 +10,5 @@
 char first(char * string);
 char * end(char * string);
 int max(int a, int b);
-
+int max_3(int a, int b, int c);
 #endif
