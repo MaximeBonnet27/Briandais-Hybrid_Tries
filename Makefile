@@ -14,6 +14,9 @@ exec_shake : bin/briandais_shakespeare
 exec_shake_threads : bin/briandais_shakespeare_threads
 	bin/briandais_shakespeare_threads > log
 
+exec_shake_tries : bin/tries_shakespeare
+	bin/tries_shakespeare > log
+
 exec_main_tries : bin/main_tries
 	bin/main_tries
 
@@ -68,6 +71,14 @@ bin/main_tries : obj/main_tries.o obj/tools.o obj/HTrie.o
 
 obj/HTrie.o : src/Hybrid_Tries/HTrie.c
 	${CC} ${CFLAGS} -o $@ -c $^ -I include
+
+obj/tries_shakespeare.o : src/tries_shakespeare.c
+	${CC} ${CFLAGS} -o $@ -c $^ -I include 
+
+bin/tries_shakespeare : obj/tries_shakespeare.o obj/tools.o obj/HTrie.o
+	${CC} ${CFLAGS}  -o $@ $^ -lrt
+
+
 
 # PLOT
 

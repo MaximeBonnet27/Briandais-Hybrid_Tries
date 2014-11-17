@@ -323,3 +323,77 @@ HTrie * add_file_HTrie(char * file_name, HTrie * T){
 	return T;
 }
 
+
+HTrie * del_file_HTrie(char * file_name, HTrie * T){
+
+	FILE * file = fopen(file_name, "r");
+	if(file == NULL){
+		fprintf(stderr,"fopen failed : %s\n", file_name);
+		return NULL;
+	}
+	char * buffer = malloc(sizeof(char) * 128);
+	int i;
+	for(i = 0; i < 128; i++) buffer[i] = '\0';
+	while(fscanf(file,"%s", buffer) != EOF){
+		T = del_HTrie(buffer, T);	
+		for(i = 0; i < 128; i++) buffer[i] = '\0';
+	}
+	fclose(file);
+	return T;
+}
+
+
+HTrie * add_directory_HTrie(char * dir_name, HTrie * T){
+
+	DIR * dir = opendir(dir_name);
+	struct dirent * entry;
+	char path [256];
+	if(dir == NULL){
+		fprintf(stderr,"opendir failed\n");
+		return NULL;
+	}
+	while((entry = readdir(dir))){
+		if(!strcmp(entry->d_name, "."))
+			continue;
+		if(!strcmp(entry->d_name, ".."))
+			continue;
+
+		strcpy(path, dir_name);
+		strcat(path, "/");
+		strcat(path, entry->d_name);
+		T = add_file_HTrie(path, T);
+
+	}
+	closedir(dir);
+	return T;
+
+}
+
+HTrie * del_directory_HTrie(char * dir_name, HTrie * T){
+
+	DIR * dir = opendir(dir_name);
+	struct dirent * entry;
+	char path [256];
+	if(dir == NULL){
+		fprintf(stderr,"opendir failed\n");
+		return NULL;
+	}
+	while((entry = readdir(dir))){
+		if(!strcmp(entry->d_name, "."))
+			continue;
+		if(!strcmp(entry->d_name, ".."))
+			continue;
+
+		strcpy(path, dir_name);
+		strcat(path, "/");
+		strcat(path, entry->d_name);
+		T = del_file_HTrie(path, T);
+
+	}
+	closedir(dir);
+	return T;
+}
+
+
+
+

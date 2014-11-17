@@ -384,7 +384,4 @@ BRTree * del_directory_BRTree(char * dir_name, BRTree * T){
 	}
 	closedir(dir);
 	return T;
-
-
-
 }

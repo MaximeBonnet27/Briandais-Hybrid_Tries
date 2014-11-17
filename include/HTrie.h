@@ -28,6 +28,12 @@ void free_HTrie(HTrie * T);
 
 HTrie * add_file_HTrie(char * file_name, HTrie * T);
 
+HTrie * del_file_HTrie(char * file_name, HTrie * T);
+
+HTrie * del_directory_HTrie(char * dir_name, HTrie * T);
+
+HTrie * add_directory_HTrie(char * dir_name, HTrie * T);
+
 int search_HTrie(char * word, HTrie * T);
 
 int count_words_HTrie(HTrie * T);
