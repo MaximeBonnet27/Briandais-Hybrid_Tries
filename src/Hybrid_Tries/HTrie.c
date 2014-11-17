@@ -188,6 +188,55 @@ int count_prefix_HTrie(char * prefix, HTrie * T){
 }
 
 
+int count_nodes_HTrie(HTrie * T){
+	if(T == NULL){
+		return 0;
+	}
+
+	else 
+		return 1 + count_nodes_HTrie(T->inf)
+			+ count_nodes_HTrie(T->eq)
+			+ count_nodes_HTrie(T->sup);
+}
+
+
+void inside_list_words(HTrie * T, word_list ** list, char * word);
+
+word_list * list_words_HTrie(HTrie * T){
+
+	word_list * list = (word_list *) malloc(sizeof(word_list));
+	list->word = "";	
+	list->next = NULL;
+	inside_list_words(T, &list, "");
+
+	return list;	
+
+}
+
+void inside_list_words(HTrie * T, word_list ** list, char * word){
+
+	if(T == NULL){
+		return;
+	}
+	int n = strlen(word);
+	char * new_word = (char *) malloc(sizeof(char) * (n + 1));
+	int i;
+	for(i = 0; i < n; i++){
+		new_word[i] = word[i];
+	}
+	new_word[i] = T->key;
+
+	if(T->key == '\0'){
+		add_word_list(new_word, list);
+	}
+
+	inside_list_words(T->eq, list, new_word);
+	inside_list_words(T->inf, list, word);
+	inside_list_words(T->sup, list, word);
+
+}
+
+
 void free_HTrie(HTrie * T){
 	if(T == NULL)
 		return;

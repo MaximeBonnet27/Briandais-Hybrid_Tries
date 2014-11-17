@@ -249,7 +249,7 @@ void free_BRTree(BRTree * T){
 
 void inside_list_words(BRTree * T, word_list ** list, char * word);
 
-word_list * list_words(BRTree * T){
+word_list * list_words_BRTree(BRTree * T){
 
 	word_list * list = (word_list *) malloc(sizeof(word_list));
 	list->word = "";	
@@ -284,26 +284,7 @@ void inside_list_words(BRTree * T, word_list ** list, char * word){
 }
 
 
-void add_word_list(char * word, word_list ** list){
-
-	word_list * new = (word_list *) malloc(sizeof(word_list));
-	new->word = word;
-	new->next = *list;
-	*list = new;
-
-
-}
-
-void print_word_list(word_list * list){
-	while(list != NULL){
-		printf("%s\n", list->word);
-		list = list->next;
-	}
-}
-
-
 BRTree * merge_BRTree(BRTree * T1, BRTree * T2){
-
 	if(T1 == NULL)
 		return T2;
 	if(T2 == NULL)

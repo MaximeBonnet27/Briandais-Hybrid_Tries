@@ -12,7 +12,6 @@
 #define D_X 10
 #define D_Y 10
 typedef struct HTrie{
-
 	char key;
 	char val;
 	struct HTrie * inf;
@@ -21,9 +20,7 @@ typedef struct HTrie{
 
 } HTrie;
 
-
 HTrie * add_HTrie(char * word, HTrie * T);
-
 
 HTrie * del_HTrie(char * word, HTrie * T);
 
@@ -41,10 +38,11 @@ int height_HTrie(HTrie * T);
 
 double average_level_HTrie(HTrie * T);
 
-
 int count_prefix_HTrie(char * prefix, HTrie * T);
 
+int count_nodes_HTrie(HTrie * T);
 
+word_list * list_words_HTrie(HTrie * T);
 
 void make_plot_file_HTrie(HTrie * T);
 #endif
