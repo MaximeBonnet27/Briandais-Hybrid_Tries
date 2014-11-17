@@ -32,17 +32,19 @@ HTrie * add_HTrie(char * word, HTrie * T){
 HTrie * del_HTrie(char * word, HTrie * T){
 
 	if(T == NULL)
-		return T;
+		return NULL;
 	else if(strcmp(word,"") == 0){
 		if(T->val == NON_EMPTY){
 			if(T->eq != NULL){
 				T->val = EMPTY;
 			}
 			else if(T->inf != NULL){
+				T->val = EMPTY;
 				T->eq = T->inf;
 				T->inf = NULL;	
 			}
 			else if(T->sup != NULL){
+				T->val = EMPTY;
 				T->eq = T->sup;
 				T->sup = NULL;
 			}
@@ -260,16 +262,15 @@ void make_plot_file_HTrie(HTrie * T){
 
 int width(HTrie * T){
 
+
 	if(T == NULL){
-		return 0; 
+		return 0;
 	}
-	else {
-		int tmp = width(T->inf) + width(T->sup);
-		int w_eq = width(T->eq);
-		if(w_eq == 1)
-			return tmp;
-		else
-			return 1 + tmp + w_eq;
+	else{
+		if(T->inf == NULL && T->eq == NULL && T->sup == NULL)
+			return 1;
+		else 
+			return width(T->inf) + width(T->eq) + width(T->sup);
 	}
 }
 
