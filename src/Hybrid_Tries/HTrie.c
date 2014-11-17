@@ -252,7 +252,7 @@ void free_HTrie(HTrie * T){
 
 
 
-void inside_plot_file(HTrie * T, int x, int y);
+void inside_plot_file(HTrie * T, double x, double y);
 int width(HTrie * T);
 void make_plot_file_HTrie(HTrie * T){
 
@@ -270,54 +270,61 @@ int width(HTrie * T){
 		if(T->inf == NULL && T->eq == NULL && T->sup == NULL)
 			return 1;
 		else 
-			return width(T->inf) + width(T->eq) + width(T->sup);
+			return (width(T->inf) + width(T->eq) + width(T->sup));
 	}
 }
 
-void inside_plot_file(HTrie * T, int x, int y){
+void inside_plot_file(HTrie * T, double x, double y){
 
-/*	if(T == NULL)
+	/*	if(T == NULL)
 		return;
 
-	int w_inf, w_eq, w_sup;
+		int w_inf, w_eq, w_sup;
 
-	w_eq = width(T->eq);
-	w_inf = width(T->inf);	
-	w_sup = width(T->sup);
+		w_eq = width(T->eq);
+		w_inf = width(T->inf);	
+		w_sup = width(T->sup);
 
-	if(w_eq != 0){
+		if(w_eq != 0){
 		printf("%c %d %d\n",T->key, x, y);
 		printf("%c %d %d\n",T->eq->key, x, y + D_Y);
-	}
-	inside_plot_file(T->eq, x, y + D_Y);
-	printf("\n");
-	if(w_inf != 0){
+		}
+		inside_plot_file(T->eq, x, y + D_Y);
+		printf("\n");
+		if(w_inf != 0){
 		printf("%c %d %d\n",T->key, x, y);
 		printf("%c %d %d\n",T->inf->key, x - (w_inf / 2) * D_X, y + D_Y);
-	}
-	inside_plot_file(T->inf,  x - (w_inf / 2) * D_X, y + D_Y);
-	printf("\n");
-	if(w_sup != 0){
+		}
+		inside_plot_file(T->inf,  x - (w_inf / 2) * D_X, y + D_Y);
+		printf("\n");
+		if(w_sup != 0){
 		printf("%c %d %d\n",T->key, x, y);
 		printf("%c %d %d\n",T->sup->key, x + (w_sup / 2) * D_X, y + D_Y);
-	}
+		}
 
-	inside_plot_file(T->sup,  x + (w_sup / 2) * D_X, y + D_Y);
-	printf("\n");
+		inside_plot_file(T->sup,  x + (w_sup / 2) * D_X, y + D_Y);
+		printf("\n");
 
-	*/
+*/
 
 	if(T == NULL)
 		return;
-	int w_inf = width(T->inf);
-	int w_eq = width(T->eq);
-	int w_sup = width(T->sup);
-	
-	printf("%c %d %d\n", T->key, x, y);
-	inside_plot_file(T->inf, x - (w_eq + w_inf) / 2 * D_X, y + D_Y);
-	inside_plot_file(T->sup, x + (w_eq + w_sup) / 2 * D_X, y + D_Y);
-	inside_plot_file(T->eq, x, y + D_Y);
+	double w_inf = width(T->inf);
+	double w_eq = width(T->eq);
+	double w_sup = width(T->sup);
+	double w = w_inf + w_eq + w_sup;
 
+	printf("%c %lf %lf\n", T->key, x, y);
+	inside_plot_file(T->inf, x - (w_eq + w_inf / 2) * D_X, y + D_Y);
+
+	printf("%c %lf %lf\n", T->key, x, y);
+	inside_plot_file(T->eq, x, y + D_Y);
+	
+	printf("%c %lf %lf\n", T->key, x, y);
+
+	inside_plot_file(T->sup, x + (w_eq + w_sup / 2) * D_X, y + D_Y);
+
+	printf("\n");
 
 }
 
