@@ -17,7 +17,7 @@ HTrie * add_HTrie(char * word, HTrie * T){
 		T->sup = add_HTrie(word, T->sup);
 	}
 	else{
-		if(*word == '\0'){
+		if(strlen(word) == 1){
 			T->val = NON_EMPTY;		
 		}
 		else{
@@ -256,7 +256,6 @@ void make_plot_file_HTrie(HTrie * T){
 	inside_plot_file(T, 0, 0);
 
 }
-
 int width(HTrie * T){
 
 
@@ -303,7 +302,7 @@ void inside_plot_file(HTrie * T, double x, double y){
 		printf("\n");
 
 */
-
+	double i_x = x;
 	if(T == NULL)
 		return;
 	double w_inf = width(T->inf);
@@ -312,14 +311,15 @@ void inside_plot_file(HTrie * T, double x, double y){
 	double w = w_inf + w_eq + w_sup;
 
 	printf("%c %lf %lf\n", T->key, x, y);
-	inside_plot_file(T->inf, x - (w_eq + w_inf / 2) * D_X, y + D_Y);
+	inside_plot_file(T->inf, x - (w_eq / 2 + w_inf / 2 + 1) * D_X, y + D_Y);
 
 	printf("%c %lf %lf\n", T->key, x, y);
+	if(i_x != x) fprintf(stderr,"Something weird\n");
 	inside_plot_file(T->eq, x, y + D_Y);
 	
 	printf("%c %lf %lf\n", T->key, x, y);
 
-	inside_plot_file(T->sup, x + (w_eq + w_sup / 2) * D_X, y + D_Y);
+	inside_plot_file(T->sup, x + (w_eq / 2 + w_sup / 2+ 1) * D_X, y + D_Y);
 
 	printf("\n");
 
