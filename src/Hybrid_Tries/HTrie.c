@@ -249,7 +249,7 @@ void free_HTrie(HTrie * T){
 
 
 
-void inside_plot_file(HTrie * T, double x, double y);
+void inside_plot_file(HTrie * T, int x, int y);
 int width(HTrie * T);
 void make_plot_file_HTrie(HTrie * T){
 
@@ -270,7 +270,7 @@ int width(HTrie * T){
 	}
 }
 
-void inside_plot_file(HTrie * T, double x, double y){
+void inside_plot_file(HTrie * T, int x, int y){
 
 	/*	if(T == NULL)
 		return;
@@ -302,24 +302,22 @@ void inside_plot_file(HTrie * T, double x, double y){
 		printf("\n");
 
 */
-	double i_x = x;
 	if(T == NULL)
 		return;
-	double w_inf = width(T->inf);
-	double w_eq = width(T->eq);
-	double w_sup = width(T->sup);
-	double w = w_inf + w_eq + w_sup;
+	int w_inf = width(T->inf);
+	int w_eq = width(T->eq);
+	int w_sup = width(T->sup);
+	int w = w_inf + w_eq + w_sup;
 
-	printf("%c %lf %lf\n", T->key, x, y);
+	printf("%c %d %d\n", T->key, x, y);
 	inside_plot_file(T->inf, x - (w_eq / 2 + w_inf / 2 + 1) * D_X, y + D_Y);
 
-	printf("%c %lf %lf\n", T->key, x, y);
-	if(i_x != x) fprintf(stderr,"Something weird\n");
+	printf("%c %d %d\n", T->key, x, y);
 	inside_plot_file(T->eq, x, y + D_Y);
 	
-	printf("%c %lf %lf\n", T->key, x, y);
+	printf("%c %d %d\n", T->key, x, y);
 
-	inside_plot_file(T->sup, x + (w_eq / 2 + w_sup / 2+ 1) * D_X, y + D_Y);
+	inside_plot_file(T->sup, x + (w_eq / 2 + w_sup / 2 + 1) * D_X, y + D_Y);
 
 	printf("\n");
 
