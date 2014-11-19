@@ -25,11 +25,6 @@ typedef struct BRTree{
 /***********************************************/
 
 
-typedef struct word_list{
-	char * word;
-	struct word_list * next;
-} word_list;
-
 /*
  * Briandais Trees Primitives
  */
@@ -136,11 +131,9 @@ int height_BRTree(BRTree * T);
  * Returns T's nodes' average level.
  */
 double average_level_BRTree(BRTree * T);
-word_list * list_words(BRTree * T);
-word_list * add_word_to_list(BRTree * T, word_list ** list, char * prefix);
+word_list * list_words_BRTree(BRTree * T);
 
-void add_word_list(char * word, word_list ** list);
-void print_word_list(word_list * list);
+
 
 
 /* 
