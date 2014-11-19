@@ -53,8 +53,8 @@ BRTree * add_BRTree(char * word, BRTree * T){
 	if(first(word) - T->key < 0){
 		return new_BRTree(first(word), build_BRTree(end(word)), T);
 	}else if(first(word) - T->key > 0){
-
-		return new_BRTree(T->key, T->child, add_BRTree(word,T->next));
+		T->next = add_BRTree(word, T->next);
+		return T;
 	}else{
 		// check if we're the last letter of the word
 		if(is_empty(T->child)){
@@ -65,7 +65,8 @@ BRTree * add_BRTree(char * word, BRTree * T){
 						build_BRTree(end(word))), 
 					T->next);
 		}
-		return new_BRTree(T->key, add_BRTree(end(word),T->child), T->next);
+		T->child = add_BRTree(end(word), T->child);
+		return T;
 	}
 }	
 
@@ -249,7 +250,7 @@ void free_BRTree(BRTree * T){
 
 void inside_list_words(BRTree * T, word_list ** list, char * word);
 
-word_list * list_words(BRTree * T){
+word_list * list_words_BRTree(BRTree * T){
 
 	word_list * list = (word_list *) malloc(sizeof(word_list));
 	list->word = "";	
@@ -284,26 +285,7 @@ void inside_list_words(BRTree * T, word_list ** list, char * word){
 }
 
 
-void add_word_list(char * word, word_list ** list){
-
-	word_list * new = (word_list *) malloc(sizeof(word_list));
-	new->word = word;
-	new->next = *list;
-	*list = new;
-
-
-}
-
-void print_word_list(word_list * list){
-	while(list != NULL){
-		printf("%s\n", list->word);
-		list = list->next;
-	}
-}
-
-
 BRTree * merge_BRTree(BRTree * T1, BRTree * T2){
-
 	if(T1 == NULL)
 		return T2;
 	if(T2 == NULL)
@@ -403,7 +385,4 @@ BRTree * del_directory_BRTree(char * dir_name, BRTree * T){
 	}
 	closedir(dir);
 	return T;
-
-
-
 }
