@@ -60,5 +60,14 @@ void print_word_list(word_list * list){
 	}
 }
 
+void free_word_list(word_list * list){
+	word_list * tmp = list;
+	while(list != NULL){
+		tmp = list;
+		list = list->next;
+		free(tmp);
+	}
+}
+
 
 

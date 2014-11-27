@@ -23,4 +23,5 @@ int max_3(int a, int b, int c);
 
 void add_word_list(char * word, word_list ** list);
 void print_word_list(word_list * list);
+void free_word_list(word_list * list);
 #endif
