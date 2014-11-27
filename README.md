@@ -11,4 +11,15 @@ n° Etudiant : 3100381
 - [ ] Fix Trie delete
 - [X] Fix Trie plot
 - [ ] Fix Briandais list inserting backwards
-- [ ] Comment code
+- [ ] Document code
+- [ ] Trie self-adjusting add
+- [ ] Trie <-> Briandais
+# EXPERIMENTS
+
+- [X] Build structure
+- [ ] Add a word
+- [ ] Delete words
+- [ ] Depth
+- [ ] Search
+- [ ] Briandais Merging vs Simple building
+
