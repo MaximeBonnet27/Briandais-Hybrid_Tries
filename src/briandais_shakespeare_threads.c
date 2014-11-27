@@ -22,35 +22,37 @@ void * thread_func(void * file_name){
 
 int main(int argc, char ** argv){
 
-	printf("Beginning to add words\n");
 	struct timespec start, finish;
 	double elapsed;
-
+	
 
 
 	char * dir_name = "test_files/shakespeare";
 	DIR * dir = opendir(dir_name);
 	struct dirent * entry;
 
+	int nb_file = 0;
+	/* We suppose there's no more than 256 file in the directory
+	*/
+	pthread_t tid[256];
+	int i;
 	if(dir == NULL){
 		fprintf(stderr,"opendir failed\n");
 		return 1;
 	}
 
-	int nb_file = 0;
-	// We suppose there's no more than 256 file in the directory
-	pthread_t tid[256];
 
-
+	printf("Beginning to add words\n");
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
 	while((entry = readdir(dir))){
+		char * path;
 		if(!strcmp(entry->d_name, "."))
 			continue;
 		if(!strcmp(entry->d_name, ".."))
 			continue;
 
-		char * path = (char *) malloc(sizeof(char) * 256);
+		path = (char *) malloc(sizeof(char) * 256);
 		strcpy(path, dir_name);
 		strcat(path, "/");
 		strcat(path, entry->d_name);
@@ -63,7 +65,6 @@ int main(int argc, char ** argv){
 		}
 	}
 	closedir(dir);
-	int i;
 	for(i = 0; i < nb_file; i++){
 		if(pthread_join(tid[i], NULL) != 0){
 			perror("pthread_join");

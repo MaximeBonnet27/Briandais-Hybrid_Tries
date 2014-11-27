@@ -31,12 +31,25 @@ int max_3(int a, int b, int c){
 
 
 void add_word_list(char * word, word_list ** list){
-
-	word_list * new = (word_list *) malloc(sizeof(word_list));
+	/* Add the word at the beginning of the
+	 * list, that's not exactly what we want..
+	 */
+	/*word_list * new = (word_list *) malloc(sizeof(word_list));
 	new->word = word;
 	new->next = *list;
 	*list = new;
+	*/
 
+	/* Add the word at the end of the list
+	 */
+
+	word_list * new = (word_list *) malloc(sizeof(word_list));
+	new->word = word;
+	word_list * temp = *list;
+	while(temp->next != NULL){
+		temp = temp->next;
+	}
+	temp->next = new;
 
 }
 

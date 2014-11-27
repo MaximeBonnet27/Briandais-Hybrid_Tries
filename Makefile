@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -O3
+CFLAGS = -Wall -O3 -std=gnu99 -ansi -pedantic -D_POSIX_C_SOURCE=199309L
 
 # ALL
 

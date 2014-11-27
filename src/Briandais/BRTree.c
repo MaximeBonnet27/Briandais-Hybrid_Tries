@@ -56,7 +56,8 @@ BRTree * add_BRTree(char * word, BRTree * T){
 		T->next = add_BRTree(word, T->next);
 		return T;
 	}else{
-		// check if we're the last letter of the word
+		/* check if we're the last letter of the word
+		*/
 		if(is_empty(T->child)){
 			if(strcmp(end(word),"\0") == 0)
 				return T;
@@ -166,13 +167,14 @@ void inside_average(BRTree * T, int * level, int * count, int curr_level){
 BRTree * add_file_BRTree(char * file_name, BRTree * T){
 
 	FILE * file = fopen(file_name, "r");
+	char * buffer;
+	int i;
 	if(file == NULL){
 		fprintf(stderr,"fopen failed : %s\n", file_name);
 		return NULL;
 	}
 
-	char * buffer = malloc(sizeof(char) * 128);
-	int i;
+	buffer = malloc(sizeof(char) * 128);
 	for(i = 0; i < 128; i++) buffer[i] = '\0';
 	while(fscanf(file,"%s", buffer) != EOF){
 		T = add_BRTree(buffer, T);	
@@ -262,13 +264,14 @@ word_list * list_words_BRTree(BRTree * T){
 }
 
 void inside_list_words(BRTree * T, word_list ** list, char * word){
-
+	int n;
+	char * new_word;
+	int i;
 	if(T == NULL){
 		return;
 	}
-	int n = strlen(word);
-	char * new_word = (char *) malloc(sizeof(char) * (n + 1));
-	int i;
+	n = strlen(word);
+	new_word = (char *) malloc(sizeof(char) * (n + 1));
 	for(i = 0; i < n; i++){
 		new_word[i] = word[i];
 	}
@@ -306,13 +309,15 @@ BRTree * merge_BRTree(BRTree * T1, BRTree * T2){
 
 BRTree * del_file_BRTree(char * file_name, BRTree * T){
 
-	FILE * file = fopen(file_name, "r");
+	FILE * file;
+       	char * buffer;
+	int i;
+	file = fopen(file_name, "r");
 	if(file == NULL){
 		fprintf(stderr,"fopen failed : %s\n", file_name);
 		return NULL;
 	}
-	char * buffer = malloc(sizeof(char) * 128);
-	int i;
+	buffer = malloc(sizeof(char) * 128);
 	for(i = 0; i < 128; i++) buffer[i] = '\0';
 	while(fscanf(file,"%s", buffer) != EOF){
 		T = del_BRTree(buffer, T);	
@@ -331,6 +336,8 @@ void make_plot_file_BRTree(BRTree * T){
 
 int inside_plot_file(BRTree * T, long x, long y, int next){
 
+	int width_child;
+
 	if(T == NULL){
 		return 0;
 	}
@@ -348,7 +355,7 @@ int inside_plot_file(BRTree * T, long x, long y, int next){
 	else
 		printf("%c %ld %ld\n",T->key, x, y);
 
-	int width_child = inside_plot_file(T->child, x, y + D_Y, 0);
+	width_child = inside_plot_file(T->child, x, y + D_Y, 0);
 	width_child = width_child < 10 ? 10 : width_child;
 	printf("\n");
 

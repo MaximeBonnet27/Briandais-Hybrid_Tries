@@ -9,12 +9,12 @@ int main(int argc, char ** argv){
 
 	struct timespec start, finish;
 	double elapsed;
-
+	BRTree * t;
 
 	printf("Beginning to add words\n");
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
-	BRTree * t = empty_BRTree();
+	t = empty_BRTree();
 	t = add_directory_BRTree("test_files/shakespeare", t);
 
 
