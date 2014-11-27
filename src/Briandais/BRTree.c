@@ -145,23 +145,23 @@ int height_BRTree(BRTree * T){
 	return max(1 + height_BRTree(T->child), height_BRTree(T->next));
 }
 
-void inside_average(BRTree * T, int * level, int * count, int curr_level);
+void inside_average_BRTree(BRTree * T, int * level, int * count, int curr_level);
 
 double average_level_BRTree(BRTree * T){
 	int  level = 0, count = 0, curr_level = 1;
-	inside_average(T, &level, &count, curr_level);
+	inside_average_BRTree(T, &level, &count, curr_level);
 	if(count == 0) return 0.0;
 	return (double) level / count;
 }
 
-void inside_average(BRTree * T, int * level, int * count, int curr_level){
+void inside_average_BRTree(BRTree * T, int * level, int * count, int curr_level){
 	if(T == NULL) return;
 	(*level) += curr_level;
 	(*count)++;
 	if(T->child != NULL)
-		inside_average(T->child, level, count, curr_level + 1);
+		inside_average_BRTree(T->child, level, count, curr_level + 1);
 	if(T->next != NULL)
-		inside_average(T->next, level, count, curr_level);
+		inside_average_BRTree(T->next, level, count, curr_level);
 }
 
 BRTree * add_file_BRTree(char * file_name, BRTree * T){
@@ -211,9 +211,6 @@ BRTree * add_directory_BRTree(char * dir_name, BRTree * T){
 
 }
 
-
-
-
 int count_nodes_BRTree(BRTree * T){
 	if(T == NULL){
 		return 0;
@@ -250,20 +247,20 @@ void free_BRTree(BRTree * T){
 	}
 }	
 
-void inside_list_words(BRTree * T, word_list ** list, char * word);
+void inside_list_words_BRTree(BRTree * T, word_list ** list, char * word);
 
 word_list * list_words_BRTree(BRTree * T){
 
 	word_list * list = (word_list *) malloc(sizeof(word_list));
 	list->word = "";	
 	list->next = NULL;
-	inside_list_words(T, &list, "");
+	inside_list_words_BRTree(T, &list, "");
 
 	return list;	
 
 }
 
-void inside_list_words(BRTree * T, word_list ** list, char * word){
+void inside_list_words_BRTree(BRTree * T, word_list ** list, char * word){
 	int n;
 	char * new_word;
 	int i;
@@ -281,9 +278,9 @@ void inside_list_words(BRTree * T, word_list ** list, char * word){
 		add_word_list(new_word, list);
 	}
 
-	inside_list_words(T->child, list, new_word);
+	inside_list_words_BRTree(T->child, list, new_word);
 
-	inside_list_words(T->next, list, word);
+	inside_list_words_BRTree(T->next, list, word);
 
 }
 
@@ -327,14 +324,14 @@ BRTree * del_file_BRTree(char * file_name, BRTree * T){
 	return T;
 }
 
-int inside_plot_file(BRTree * T, long x, long y, int next);
+int inside_plot_file_BRTree(BRTree * T, long x, long y, int next);
 void make_plot_file_BRTree(BRTree * T){
 
-	inside_plot_file(T, 0, 0, 0);	
+	inside_plot_file_BRTree(T, 0, 0, 0);	
 
 }
 
-int inside_plot_file(BRTree * T, long x, long y, int next){
+int inside_plot_file_BRTree(BRTree * T, long x, long y, int next){
 
 	int width_child;
 
@@ -355,7 +352,7 @@ int inside_plot_file(BRTree * T, long x, long y, int next){
 	else
 		printf("%c %ld %ld\n",T->key, x, y);
 
-	width_child = inside_plot_file(T->child, x, y + D_Y, 0);
+	width_child = inside_plot_file_BRTree(T->child, x, y + D_Y, 0);
 	width_child = width_child < 10 ? 10 : width_child;
 	printf("\n");
 
@@ -366,7 +363,7 @@ int inside_plot_file(BRTree * T, long x, long y, int next){
 	else
 		printf("%c %ld %ld\n",T->key, x, y);
 
-	return (width_child) + inside_plot_file(T->next, (x + width_child), y, 1);
+	return (width_child) + inside_plot_file_BRTree(T->next, (x + width_child), y, 1);
 
 }
 BRTree * del_directory_BRTree(char * dir_name, BRTree * T){
@@ -383,10 +380,7 @@ BRTree * del_directory_BRTree(char * dir_name, BRTree * T){
 			continue;
 		if(!strcmp(entry->d_name, ".."))
 			continue;
-
-		strcpy(path, dir_name);
-		strcat(path, "/");
-		strcat(path, entry->d_name);
+		sprintf(path,"%s/%s", dir_name, entry->d_name);
 		T = del_file_BRTree(path, T);
 
 	}

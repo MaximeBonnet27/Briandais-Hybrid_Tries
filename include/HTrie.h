@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include "tools.h"
+#include "BRTree.h"
 
 #define EMPTY '0'
 #define NON_EMPTY '1'
@@ -51,4 +52,6 @@ int count_nodes_HTrie(HTrie * T);
 word_list * list_words_HTrie(HTrie * T);
 
 void make_plot_file_HTrie(HTrie * T);
+
+BRTree * HTrie_to_BRTree(HTrie * H);
 #endif

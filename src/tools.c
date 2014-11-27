@@ -42,10 +42,10 @@ void add_word_list(char * word, word_list ** list){
 
 	/* Add the word at the end of the list
 	 */
-
+	word_list * temp;
 	word_list * new = (word_list *) malloc(sizeof(word_list));
 	new->word = word;
-	word_list * temp = *list;
+	temp = *list;
 	while(temp->next != NULL){
 		temp = temp->next;
 	}

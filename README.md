@@ -10,7 +10,7 @@ n° Etudiant : 3100381
 
 - [ ] Fix Trie delete
 - [X] Fix Trie plot
-- [ ] Fix Briandais list inserting backwards
+- [X] Fix Briandais list inserting backwards
 - [ ] Document code
 - [ ] Trie self-adjusting add
 - [ ] Trie <-> Briandais

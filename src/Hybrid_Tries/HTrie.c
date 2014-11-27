@@ -1,4 +1,6 @@
 #include "HTrie.h"
+#include "BRTree.h"
+
 
 HTrie * add_HTrie(char * word, HTrie * T){
 
@@ -205,7 +207,6 @@ void inside_list_words(HTrie * T, word_list ** list, char * word);
 word_list * list_words_HTrie(HTrie * T){
 
 	word_list * list = (word_list *) malloc(sizeof(word_list));
-	list->word = "";	
 	list->next = NULL;
 	inside_list_words(T, &list, "");
 
@@ -214,13 +215,16 @@ word_list * list_words_HTrie(HTrie * T){
 }
 
 void inside_list_words(HTrie * T, word_list ** list, char * word){
+	int n;
+	char * new_word;
+	int i;
 
 	if(T == NULL){
 		return;
 	}
-	int n = strlen(word);
-	char * new_word = (char *) malloc(sizeof(char) * (n + 1));
-	int i;
+	n = strlen(word);
+	new_word = (char *) malloc(sizeof(char) * (n + 1));
+
 	for(i = 0; i < n; i++){
 		new_word[i] = word[i];
 	}
@@ -290,50 +294,14 @@ int width_right(HTrie * T){
 }
 
 void inside_plot_file(HTrie * T, int x, int y){
-
-	/*	if(T == NULL)
-		return;
-
-		int w_inf, w_eq, w_sup;
-
-		w_eq = width(T->eq);
-		w_inf = width(T->inf);	
-		w_sup = width(T->sup);
-
-		if(w_eq != 0){
-		printf("%c %d %d\n",T->key, x, y);
-		printf("%c %d %d\n",T->eq->key, x, y + D_Y);
-		}
-		inside_plot_file(T->eq, x, y + D_Y);
-		printf("\n");
-		if(w_inf != 0){
-		printf("%c %d %d\n",T->key, x, y);
-		printf("%c %d %d\n",T->inf->key, x - (w_inf / 2) * D_X, y + D_Y);
-		}
-		inside_plot_file(T->inf,  x - (w_inf / 2) * D_X, y + D_Y);
-		printf("\n");
-		if(w_sup != 0){
-		printf("%c %d %d\n",T->key, x, y);
-		printf("%c %d %d\n",T->sup->key, x + (w_sup / 2) * D_X, y + D_Y);
-		}
-
-		inside_plot_file(T->sup,  x + (w_sup / 2) * D_X, y + D_Y);
-		printf("\n");
-
-*/
 	if(T == NULL)
 		return;
-	int w_inf = width(T->inf);
-	int w_eq = width(T->eq);
-	int w_sup = width(T->sup);
-	int w = w_inf + w_eq + w_sup;
-
 	printf("%c %d %d\n", T->key, x, y);
 	inside_plot_file(T->inf, x - (width_left(T->eq) + width_right(T->inf) + 1) * D_X, y + D_Y);
 
 	printf("%c %d %d\n", T->key, x, y);
 	inside_plot_file(T->eq, x, y + D_Y);
-	
+
 	printf("%c %d %d\n", T->key, x, y);
 
 	inside_plot_file(T->sup, x + (width_right(T->eq) + width_left(T->sup)+ 1) * D_X, y + D_Y);
@@ -344,12 +312,13 @@ void inside_plot_file(HTrie * T, int x, int y){
 
 HTrie * add_file_HTrie(char * file_name, HTrie * T){
 	FILE * file = fopen(file_name, "r");
+	char * buffer;
+	int i;
 	if(file == NULL){
 		fprintf(stderr,"fopen failed : %s\n", file_name);
 		return NULL;
 	}
-	char * buffer = malloc(sizeof(char) * 128);
-	int i;
+	buffer = malloc(sizeof(char) * 128);
 	for(i = 0; i < 128; i++) buffer[i] = '\0';
 	while(fscanf(file,"%s", buffer) != EOF){
 		T = add_HTrie(buffer, T);
@@ -364,12 +333,13 @@ HTrie * add_file_HTrie(char * file_name, HTrie * T){
 HTrie * del_file_HTrie(char * file_name, HTrie * T){
 
 	FILE * file = fopen(file_name, "r");
+	char * buffer;
+	int i;
 	if(file == NULL){
 		fprintf(stderr,"fopen failed : %s\n", file_name);
 		return NULL;
 	}
-	char * buffer = malloc(sizeof(char) * 128);
-	int i;
+	buffer = malloc(sizeof(char) * 128);
 	for(i = 0; i < 128; i++) buffer[i] = '\0';
 	while(fscanf(file,"%s", buffer) != EOF){
 		T = del_HTrie(buffer, T);	
@@ -431,6 +401,33 @@ HTrie * del_directory_HTrie(char * dir_name, HTrie * T){
 	return T;
 }
 
+void inside_HTrie_to_BRTree(HTrie * H, BRTree * B, char * word){
 
+	char * new_word;
+	int n;
+	int i;
+	if(H == NULL){
+		return;
+	}
+	n = strlen(word);
+	new_word = (char *) malloc(sizeof(char) * (n + 1));
+	for(i = 0; i < n; i++){
+		new_word[i] = word[i];
+	}
+	new_word[i] = H->key;
 
+	if(H->val == NON_EMPTY){
+		B = add_BRTree(new_word, B);
+	}
 
+	inside_HTrie_to_BRTree(H->eq, B, new_word);
+	inside_HTrie_to_BRTree(H->inf, B, word);
+	inside_HTrie_to_BRTree(H->sup, B, word);
+}
+
+BRTree * HTrie_to_BRTree(HTrie * H){
+
+	BRTree * B = empty_BRTree();
+	inside_HTrie_to_BRTree(H,B,"");
+	return B;
+}

@@ -11,7 +11,7 @@ X_MIN=GPVAL_X_MIN
 set xrange [X_MIN-(X_MAX-X_MIN)*0.05:X_MAX+(X_MAX-X_MIN)*0.05] 
 
 set terminal png medium size 1980,1020 enhanced font 'Verdana,10'
-set output "result_trie.png"
+set output "img/result_trie.png"
 
 set style line 1 lc rgb "red" lt 1 lw 2.5 pt 7 pi -1 ps 2.5
 set pointintervalbox 4 
